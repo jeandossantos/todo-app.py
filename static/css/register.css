@@ -1,0 +1,14 @@
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.register form {
+  width: 400px;
+  background-color: #18181b;
+  padding: 20px;
+  border-radius: 4px;
+}

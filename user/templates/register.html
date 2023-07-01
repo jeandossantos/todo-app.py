@@ -1,29 +1,52 @@
-{% extends 'master.html' %} {% block title %} Registre-se - Todo-app {% endblock
-%}{% block content %}
-<div class="" with="600px">
-  <form>
+{% extends 'master.html' %}
+{% load static %}
+
+{% block head %} 
+<title>Registre-se - Todo-app</title>
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock%}
+
+{% block content %}
+<div class="register ">
+
+  <h1 class="mb-3">Registre-se</h1>
+  <form method="post" action="{% url 'create_user' %}">
+    {% csrf_token %}
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <label for="name" class="form-label">Nome:</label>
+      <input
+        type="name"
+        class="form-control"
+        id="name"
+        name="name"
+        aria-describedby="nameHelp"
+      />
+      {% if form.errors.name %}
+      <span class="text-danger text-sm">Nome inválido.</span>
+      {% endif %} 
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">E-mail:</label>
       <input
         type="email"
         class="form-control"
-        id="exampleInputEmail1"
+        id="email"
+        name="email"
         aria-describedby="emailHelp"
       />
-      <div id="emailHelp" class="form-text">
-        We'll never share your email with anyone else.
-      </div>
+      {% if form.errors.email %}
+      <span class="text-danger text-sm">E-mail inválido.</span>
+      {% endif %} 
     </div>
     <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" />
+      <label for="password" class="form-label">Senha:</label>
+      <input type="password"  name="password" class="form-control" id="password" />
+      {% if form.errors.password %}
+      <span class="text-danger text-sm">Senha invalida.</span>
+      {% endif %} 
     </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
   </form>
 </div>
-
 {% endblock %}
