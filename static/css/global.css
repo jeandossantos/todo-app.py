@@ -1,4 +1,6 @@
 body {
-  background-color: #09090b;
-  color: #dadada;
+  background-image: url('../images/background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-color: #a1a0a3;
 }

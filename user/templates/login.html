@@ -1,20 +1,50 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>das</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body>
-    <!--[if lt IE 7]>
-      <p class="browsehappy">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="#">upgrade your browser</a> to improve your experience.
-      </p>
-    <![endif]-->
-    <h1>dasdas</h1>
- 
-  </body>
-</html>
+{% extends 'master.html' %}
+{% load static %}
+{% block head  %}
+<title>Login - TodoApp</title>
+<link rel="stylesheet" href="{% static '/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="login">
+  <form class="border"  method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <h1 class="text-center">Faça login</h1>
+    <div class="mb-3">
+      <label for="email" class="form-label">E-mail:</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        required
+        aria-describedby="emailHelp"
+      />
+      {% if form.errors.email %}
+      <span class="text-danger text-sm">E-mail inválido.</span>
+      {% endif %} 
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Senha:</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        required
+        aria-describedby="passwordHelp"
+      />
+      {% if form.errors.password %}
+      <span class="text-danger text-sm">Senha inválida.</span>
+      {% endif %} 
+    </div>
+
+    <div class="d-grid pt-3">
+      <button type="submit" class="btn btn-primary">Entrar</button>
+    </div>
+    <div class="d-flex justify-content-center align-items-center pt-4">
+      <p>Ainda não tem conta? <a href="{% url 'create_user'%}">Crie uma agora!</a></p>
+    </div>
+  </form>
+</div>
+{% endblock %}

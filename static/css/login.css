@@ -1,4 +1,4 @@
-.register {
+.login {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,7 +6,7 @@
   height: 100vh;
 }
 
-.register form {
+.login form {
   width: 400px;
   background-color: #f9f7fd;
   opacity: 0.8;

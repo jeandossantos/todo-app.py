@@ -1,16 +1,10 @@
-{% extends 'master.html' %}
-{% load static %}
-
-{% block head %} 
-<title>Registre-se - Todo-app</title>
-<link rel="stylesheet" href="{% static 'css/register.css' %}">
-{% endblock%}
-
-{% block content %}
-<div class="register ">
-
-  <h1 class="mb-3">Registre-se</h1>
-  <form method="post" action="{% url 'create_user' %}">
+{% extends 'master.html' %} {% load static %} {% block head %}
+<title>Registre-se - TodoApp</title>
+<link rel="stylesheet" href="{% static 'css/register.css' %}" />
+{% endblock%} {% block content %}
+<div class="register">
+  <form class="border" method="post" action="{% url 'create_user' %}">
+    <h1 class="text-center" class="mb-3">Registre-se</h1>
     {% csrf_token %}
     <div class="mb-3">
       <label for="name" class="form-label">Nome:</label>
@@ -23,7 +17,7 @@
       />
       {% if form.errors.name %}
       <span class="text-danger text-sm">Nome inválido.</span>
-      {% endif %} 
+      {% endif %}
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">E-mail:</label>
@@ -36,17 +30,29 @@
       />
       {% if form.errors.email %}
       <span class="text-danger text-sm">E-mail inválido.</span>
-      {% endif %} 
+      {% endif %}
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Senha:</label>
-      <input type="password"  name="password" class="form-control" id="password" />
+      <input
+        type="password"
+        name="password"
+        class="form-control"
+        id="password"
+      />
       {% if form.errors.password %}
       <span class="text-danger text-sm">Senha invalida.</span>
-      {% endif %} 
+      {% endif %}
     </div>
-    
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <div class="d-grid mt-3">
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </div>
+    <div class="d-flex justify-content-center align-items-center pt-4">
+      <p>
+        Já tem sua conta?
+        <a href="{% url 'login'%}">Faça login!</a>
+      </p>
+    </div>
   </form>
 </div>
 {% endblock %}
