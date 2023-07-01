@@ -7,16 +7,16 @@
     <h1 class="text-center" class="mb-3">Registre-se</h1>
     {% csrf_token %}
     <div class="mb-3">
-      <label for="name" class="form-label">Nome:</label>
+      <label for="username" class="form-label">Usuário:</label>
       <input
-        type="name"
+        type="username"
         class="form-control"
-        id="name"
-        name="name"
-        aria-describedby="nameHelp"
+        id="username"
+        name="username"
+        aria-describedby="usernameHelp"
       />
-      {% if form.errors.name %}
-      <span class="text-danger text-sm">Nome inválido.</span>
+      {% if form.errors.username %}
+      <span class="text-danger text-sm">Usuário inválido.</span>
       {% endif %}
     </div>
     <div class="mb-3">

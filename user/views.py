@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.hashers import make_password as encrypt_password
-from django.contrib.auth.hashers import check_password as verify_password
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.models import User
 
-# from .models import User
 from .forms import RegisterForm, LoginForm
 
 
@@ -11,25 +9,23 @@ def create_user(request):
     if request.method == 'GET':
         return render(request, 'register.html')
 
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        email = request.POST.get('email')
+    form = RegisterForm(request.POST)
 
-        if _user_exists(email):
-            return render(request, 'register.html', {
-                'form': {
-                    'errors': {
-                        'email': 'Please enter a valid email address'
-                    }
+    if not form.is_valid():
+        return render(request, 'register.html', {
+            'form': {
+                'errors': {
+                    'username': 'Please enter a valid username'
                 }
-            })
+            }
+        })
 
-        if form.is_valid():
-            _create_new_user(request)
+    username = form.cleaned_data["username"]
 
-            return redirect('/users/login')
-        else:
-            return render(request, 'register.html', {'form': form})
+    if not _user_exists(username):
+        _create_new_user(form)
+
+        return redirect('/auth/login')
 
 
 def login_user(request):
@@ -43,23 +39,20 @@ def login_user(request):
         }
     }
 
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
+    form = LoginForm(request.POST)
 
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+    if form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
 
-            authenticated_user = authenticate(
-                request, email=email, password=password
-            )
-            print(authenticated_user)
-            if authenticated_user is not None:
-                login(request, authenticated_user)
+        authenticated_user = authenticate(
+            request, username=username, password=password
+        )
 
-                return redirect('/users/test')
-            else:
-                return render(request, 'login.html', {'form': errors})
+        if authenticated_user is not None:
+            login(request, authenticated_user)
+
+            return redirect('/auth/test')
         else:
             return render(request, 'login.html', {'form': errors})
 
@@ -67,25 +60,19 @@ def login_user(request):
 def logout_user(request):
     logout(request)
 
-    return redirect('/users/login')
+    return redirect('/auth/login')
 
 
-def authenticated(request):
-    return render(request, 'test.html')
+def _user_exists(username):
+    return User.objects.filter(username=username).exists()
 
 
-def _user_exists(email):
-    return User.objects.filter(email=email).exists()
+def _create_new_user(form):
+    username = form.cleaned_data['username']
+    email = form.cleaned_data['email']
+    password = form.cleaned_data['password']
 
-
-def _create_new_user(request):
-    name = request.POST.get('name')
-    email = request.POST.get('email')
-    password = request.POST.get('password')
-
-    user = User()
-    user.name = name
-    user.email = email
-    user.password = encrypt_password(password)
-
+    user = User.objects.create_user(
+        username=username, email=email, password=password
+    )
     user.save()

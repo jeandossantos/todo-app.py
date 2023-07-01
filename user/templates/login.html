@@ -11,17 +11,17 @@
     {% csrf_token %}
     <h1 class="text-center">Faça login</h1>
     <div class="mb-3">
-      <label for="email" class="form-label">E-mail:</label>
+      <label for="username" class="form-label">Usuário:</label>
       <input
-        type="email"
+        type="username"
         class="form-control"
-        id="email"
-        name="email"
+        id="username"
+        name="username"
         required
-        aria-describedby="emailHelp"
+        aria-describedby="usernameHelp"
       />
-      {% if form.errors.email %}
-      <span class="text-danger text-sm">E-mail inválido.</span>
+      {% if form.errors.username %}
+      <span class="text-danger text-sm">Usuário inválido ou senha inválido(s).</span>
       {% endif %} 
     </div>
     <div class="mb-3">
@@ -35,7 +35,7 @@
         aria-describedby="passwordHelp"
       />
       {% if form.errors.password %}
-      <span class="text-danger text-sm">Senha inválida.</span>
+      <span class="text-danger text-sm">Usuário inválido ou senha inválido(s).</span>
       {% endif %} 
     </div>
 
