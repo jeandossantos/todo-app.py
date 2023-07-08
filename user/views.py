@@ -51,8 +51,9 @@ def login_user(request):
 
         if authenticated_user is not None:
             login(request, authenticated_user)
+            request.session['user_id'] = authenticated_user.id
 
-            return redirect('/auth/test')
+            return redirect('/todo/view_todo/')
         else:
             return render(request, 'login.html', {'form': errors})
 

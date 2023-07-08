@@ -1,0 +1,8 @@
+{
+  "editor.defaultFormatterOptions": {
+  "esbenp.prettier-vscode": {
+    "htmlWhitespaceSensitivity": "strict",
+    "endOfLine": "auto"
+  }
+}
+}
