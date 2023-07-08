@@ -1,6 +1,47 @@
 body {
-  background-image: url('../images/background.jpg');
+  background-image: url("../images/background.jpg");
   background-position: center;
   background-size: cover;
-  background-color: #a1a0a3;
+  background-color: #ebebeb;
+  background-repeat: no-repeat;
+  height: 70vh;
+}
+
+.container-fluid {
+  padding: 0;
+}
+
+.menu {
+  padding: 5px 20px;
+  opacity: 0.9;
+}
+
+.menu .navbar-brand {
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(202 161 127);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.menu .navbar-brand:hover {
+  animation: none;
+}
+
+.menu a {
+  color: #ff4081;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.menu a:hover {
+  color: #ff6699;
+  text-decoration: underline;
 }
