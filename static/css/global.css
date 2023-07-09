@@ -1,14 +1,17 @@
 body {
-  background-image: url("../images/background.jpg");
+  background-image: url('../images/background.jpg');
   background-position: center;
   background-size: cover;
   background-color: #ebebeb;
   background-repeat: no-repeat;
-  height: 70vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.container-fluid {
+.content {
   padding: 0;
+  flex-grow: 1;
 }
 
 .menu {
@@ -35,13 +38,19 @@ body {
 }
 
 .menu a {
-  color: #ff4081;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s ease;
 }
 
 .menu a:hover {
-  color: #ff6699;
   text-decoration: underline;
+}
+
+.my-footer {
+  padding: 20px 0;
+  opacity: 0.9;
+  color: rgba(0, 0, 0, 0.55);
+  font-weight: 700;
+  flex-shrink: 0;
 }

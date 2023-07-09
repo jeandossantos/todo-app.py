@@ -1,0 +1,105 @@
+{% extends 'master.html' %} {% load static %} {% block head %}
+<title>Editando todo - Todo App</title>
+<link rel="stylesheet" href="{% static 'css/edit_todo.css' %}" />
+{% endblock %} {% block content %} {% include 'menu.html' %}
+
+<div class="container edit-todo bg-light my-3 pt-3 pb-3">
+  <h1 class="text-center">Alterando Tarefa</h1>
+ 
+    <form method="post" action="{% url 'edit_todo' id=todo.id  %}" class="px-5 mb-2    ">
+      {% csrf_token %}
+      <input type="text" value="{{todo.id}}" hidden />
+      <div class="mb-3">
+        {% csrf_token %}
+        <label for="title" class="form-label">Título:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          required
+          placeholder="lavar o carro"
+          value="{{todo.title}}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Descrição:</label>
+        <textarea class="form-control" name="description" rows="3">
+  {{todo.description}}</textarea
+        >
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Prioridade:</label>
+        <div class="d-flex gap-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="priority" value="1"
+            id="priority1" {% if todo.priority == 1 %}checked{% endif %} />
+            <label class="form-check-label" for="priority1">Baixa </label>
+          </div>
+  
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="priority" value="2"
+            id="priority2" {% if todo.priority == 2 %}checked{% endif %} />
+            <label class="form-check-label" for="priority2">Média </label>
+          </div>
+  
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="priority" value="3"
+            id="priority3" {% if todo.priority == 3 %}checked{% endif %} />
+            <label class="form-check-label" for="priority3">Alta </label>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3" style="width: 200px">
+        <label class="form-label" for="deadline">Prazo:</label>
+        <input
+          type="datetime-local"
+          name="deadline"
+          id="deadline"
+          class="form-control"
+          value="{{title.deadline}}"
+        />
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Concluída:</label>
+        <div class="d-flex gap-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="done"
+              id="done-false"
+              value="0"
+              {%
+              if
+              not
+              todo.done
+              %}
+              checked
+              {%
+              endif
+              %}
+            />
+  
+            <label class="form-check-label" for="done-false">Não </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="done"
+            id="done-true" value="1" {% if todo.done == True %} 
+            checked {% endif  %} />
+            <label class="form-check-label" for="done-true">Sim </label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-warning">
+          <i class="bi bi-pencil"></i>
+          Salvar Alterações</button>
+      </div>
+    </form>
+    
+
+</div>
+
+{% endblock %}

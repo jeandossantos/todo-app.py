@@ -16,7 +16,7 @@ class Todo(models.Model):
     title = models.CharField(max_length=55, verbose_name="Título")
     description = models.TextField(blank=True, verbose_name="Descrição")
     priority = models.IntegerField(
-        max_length=1, choices=priority_choices, verbose_name="Prioridade", default=0
+        choices=priority_choices, verbose_name="Prioridade", default=0
     )
     deadline = models.DateTimeField(
         null=True, verbose_name="Prazo", blank=True

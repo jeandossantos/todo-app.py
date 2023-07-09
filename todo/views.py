@@ -5,7 +5,7 @@ from .models import Todo
 from . import utils
 
 
-def view_todo(request):
+def home(request):
     if request.method == 'GET':
         todos = Todo.objects.all().order_by('-created_at')
 
@@ -13,7 +13,7 @@ def view_todo(request):
             todo.priority = utils.get_todo_priority(todo)
             todo.done = 'Sim' if todo.done else 'Não'
 
-        return render(request, 'view_todo.html', {
+        return render(request, 'home.html', {
             'todos': todos
         })
     elif request.method == 'POST':
@@ -32,7 +32,35 @@ def view_todo(request):
 
         todo.save()
 
-        return redirect('/todo/view_todo/')
+        return redirect('/todo/home/')
+
+
+def edit_todo(request, id):
+    if request.method == 'GET':
+        todo = Todo.objects.get(id=id)
+
+        return render(request, 'edit_todo.html', {
+            'todo': todo
+        })
+
+    title = request.POST.get('title')
+    description = request.POST.get('description')
+    priority = request.POST.get('priority')
+    deadline = request.POST.get('deadline')
+    done = request.POST.get('done')
+
+    if len(deadline) == 0:
+        deadline = None
+
+    todo = Todo.objects.get(id=id)
+    todo.title = title
+    todo.description = description
+    todo.priority = priority
+    todo.deadline = deadline
+    todo.done = done
+    todo.save()
+
+    return redirect('/todo/home/')
 
 
 def delete_todo(request, id):
@@ -43,4 +71,4 @@ def delete_todo(request, id):
 
         return redirect('/todo/view_todo')
     else:
-        return render(request, 'view_todo.html')
+        return render(request, 'home.html')

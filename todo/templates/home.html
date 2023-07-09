@@ -2,50 +2,8 @@
 <title>Tarefas - Todo App</title>
 <link rel="stylesheet" href="{% static 'css/todo.css' %}" />
 
-{% endblock %} {%block content %}
-
-<nav class="navbar menu navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#"
-      >Todo App
-      <i class="bi bi-clipboard-check-fill"></i>
-    </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">
-            <i class="bi bi-house-door-fill"></i>
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-person-circle"></i>
-            Perfil</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-box-arrow-left"></i>
-            Sair</a
-          >
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<div class="container bg-light my-5 todo py-3">
+{% endblock %} {%block content %} {% include 'menu.html' %}
+<div class="container bg-light my-5 todo px-5 py-3">
   <h1 class="text-center pb-3">Tarefas</h1>
   <table class="table table-striped table-hover">
     <thead>
@@ -66,7 +24,7 @@
     {% else %}
     <tbody>
       {% for todo in todos %}
-      <tr>
+      <tr id="todo-row-{{todo.id}}">
         <td>{{ todo.title }}</td>
         <td>{{ todo.priority }}</td>
         {% if todo.deadline %}
@@ -77,10 +35,15 @@
         <td>{{ todo.done }}</td>
         <td>
           <span>
-            <button class="btn btn-secondary">
+            <button
+              class="btn btn-secondary"
+              data-bs-target="#load-todo-modal"
+              data-bs-toggle="modal"
+              onclick="loadTodoRow('{{todo.id}}', '{{todo.description}}', '{{todo.created_at}}')"
+            >
               <i class="bi bi-eye"></i>
             </button>
-            <button class="btn btn-danger" onclick="remove_todo({{todo.id}})">
+            <button class="btn btn-danger" onclick="remove_todo('{{todo.id}}')">
               <i class="bi bi-trash"></i>
             </button>
           </span>
@@ -114,7 +77,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form action="{% url 'view_todo' %}" method="post">
+        <form action="{% url 'home' %}" method="post">
           <div class="mb-3">
             {% csrf_token %}
             <label for="title" class="form-label">Título:</label>
@@ -229,27 +192,89 @@
 >
   <i class="bi bi-plus-lg"></i>
 </button>
-<script>
-  const csrfToken = "{{ csrf_token }}";
 
-  function remove_todo(id) {
-    request("/todo/delete_todo/" + id)
-      .then((resp) => {
-        location.reload();
-      })
-      .catch((error) => console.error(error));
-  }
+<div
+  class="modal fade"
+  id="load-todo-modal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h1 class="modal-title fs-5 text-center" id="add-todo-modal">
+          Detalhes da Tarefa
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p id="todo-created_at"><strong>Criada em:&nbsp;</strong></p>
+        <p id="todo-title"><strong>Título:&nbsp;</strong></p>
+        <p id="todo-description">
+          <strong>Descrição: <br /></strong>
+        </p>
+        <p id="todo-priority"><strong>Prioridade:&nbsp;</strong></p>
+        <p id="todo-deadline"><strong>Prazo:&nbsp;</strong></p>
+        <p id="todo-done"><strong>Concluída:&nbsp;</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fechar
+        </button>
+        <a href="" id="edit-todo" type="button" class="btn btn-warning">
+          <i class="bi bi-pencil"></i> Editar</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+  <script>
+    const csrfToken = '{{ csrf_token }}';
 
-  function request(url, body, method) {
-    contentType = "application/x-www-form-urlencoded";
+    function remove_todo(id) {
+      request('/todo/delete_todo/' + id)
+        .then((resp) => {
+          location.reload();
+        })
+        .catch((error) => console.error(error));
+    }
 
-    return fetch(url, {
-      method: method || "GET",
-      "Content-Type": contentType,
-      "X-CSRFToken": csrfToken,
-      body: JSON.stringify(body),
-    });
-  }
-</script>
+    function loadTodoRow(id, todo_description, created_at) {
+      const rows = document.getElementById(`todo-row-${id}`);
 
-{% endblock %}
+      let createdAt = `<strong>Criada em:</strong> ${created_at}`;
+      let title = `<strong>Título:</strong> ${rows.childNodes[1].innerHTML}`;
+      let description = `<strong>Descrição:</strong> <br> ${todo_description}`;
+      let priority = `<strong>Prioridade:</strong> ${rows.childNodes[3].innerHTML}`;
+      let deadline = `<strong>Prazo:</strong> ${rows.childNodes[5].innerHTML}`;
+      let done = `<strong>Concluída:</strong> ${rows.childNodes[7].innerHTML}`;
+
+      document.querySelector('#todo-created_at').innerHTML = createdAt;
+      document.querySelector('#todo-title').innerHTML = title;
+      document.querySelector('#todo-description').innerHTML = description;
+      document.querySelector('#todo-priority').innerHTML = priority;
+      document.querySelector('#todo-deadline').innerHTML = deadline;
+      document.querySelector('#todo-done').innerHTML = done;
+      document.querySelector('#edit-todo').href = `/todo/edit_todo/${id}`;
+    }
+
+    function request(url, body, method) {
+      contentType = 'application/x-www-form-urlencoded';
+
+      return fetch(url, {
+        method: method || 'GET',
+        'Content-Type': contentType,
+        'X-CSRFToken': csrfToken,
+        body: JSON.stringify(body),
+      });
+    }
+  </script>
+
+  {% endblock %}
+</div>
