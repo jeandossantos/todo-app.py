@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from django.http import JsonResponse
 from .models import Todo
 
 from . import utils
@@ -61,6 +61,18 @@ def edit_todo(request, id):
     todo.save()
 
     return redirect('/todo/home/')
+
+
+def toggle_todo_done(request, id):
+    todo = Todo.objects.get(id=id)
+    print(todo.done)
+    todo.done = not todo.done
+    print(todo.done)
+    todo.save()
+
+    return JsonResponse({
+        'status': 'ok',
+    })
 
 
 def delete_todo(request, id):

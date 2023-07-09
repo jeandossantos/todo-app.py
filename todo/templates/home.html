@@ -35,7 +35,19 @@
         <td>{{ todo.done }}</td>
         <td>
           <span>
+            {% if todo.done == 'Sim' %}
+            <button title="Marca concluída / Não concluída" class="btn btn-warning" onclick="toggleTodoDone('{{todo.id}}')">
+              <i class="bi bi-x"></i>
+            </button>
+              {% else %}
+              <button title="Marca concluída / Não concluída" class="btn btn-primary" onclick="toggleTodoDone('{{todo.id}}')">
+                <i class="bi bi-check"></i>
+              </button>              
+              {% endif %}
+            
+
             <button
+              title="Ver detalhes da tarefa"
               class="btn btn-secondary"
               data-bs-target="#load-todo-modal"
               data-bs-toggle="modal"
@@ -46,6 +58,7 @@
             <button class="btn btn-danger" onclick="remove_todo('{{todo.id}}')">
               <i class="bi bi-trash"></i>
             </button>
+            
           </span>
         </td>
       </tr>
@@ -234,8 +247,18 @@
     </div>
   </div>
 </div>
+
+</div>
+
   <script>
     const csrfToken = '{{ csrf_token }}';
+
+
+    function toggleTodoDone(id) {
+      request('/todo/toggle_todo_done/'+id)
+      .then(resp => location.reload())
+      .catch(err => console.log(err));
+    }
 
     function remove_todo(id) {
       request('/todo/delete_todo/' + id)
@@ -276,5 +299,4 @@
     }
   </script>
 
-  {% endblock %}
-</div>
+{% endblock %}
