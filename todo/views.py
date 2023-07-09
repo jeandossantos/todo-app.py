@@ -6,6 +6,9 @@ from . import utils
 
 
 def home(request):
+    if not request.user.is_authenticated:
+        return render(request, "login.html")
+
     if request.method == 'GET':
         todos = Todo.objects.all().order_by('-created_at')
 
@@ -36,6 +39,9 @@ def home(request):
 
 
 def edit_todo(request, id):
+    if not request.user.is_authenticated:
+        return render(request, "login.html")
+
     if request.method == 'GET':
         todo = Todo.objects.get(id=id)
 
@@ -64,6 +70,9 @@ def edit_todo(request, id):
 
 
 def toggle_todo_done(request, id):
+    if not request.user.is_authenticated:
+        return render(request, "login.html")
+
     todo = Todo.objects.get(id=id)
     print(todo.done)
     todo.done = not todo.done
@@ -76,6 +85,9 @@ def toggle_todo_done(request, id):
 
 
 def delete_todo(request, id):
+    if not request.user.is_authenticated:
+        return render(request, "login.html")
+
     todo = Todo.objects.filter(id=id)
 
     if todo.exists():
