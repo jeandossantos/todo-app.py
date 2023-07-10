@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 
 from .forms import RegisterForm, LoginForm
@@ -42,7 +42,7 @@ def login_user(request):
     form = LoginForm(request.POST)
 
     if form.is_valid():
-        username = form.cleaned_data['username']
+        username = form.cleaned_data['username'].lower()
         password = form.cleaned_data['password']
 
         authenticated_user = authenticate(
@@ -53,7 +53,7 @@ def login_user(request):
             login(request, authenticated_user)
             request.session['user_id'] = authenticated_user.id
 
-            return redirect('/auth/home/')
+            return redirect('/todo/home/')
         else:
             return render(request, 'login.html', {'form': errors})
 
@@ -95,8 +95,55 @@ def update_profile(request):
         })
 
     current_user = User.objects.get(id=request.user.id)
-    current_user.username = username
+    current_user.username = username.lower()
     current_user.save()
+
+    return redirect('/auth/profile')
+
+
+def update_user_password(request):
+    if not request.user.is_authenticated:
+        return render(request, "login.html")
+
+    current_password = request.POST.get('currentPassword')
+    new_password = str(request.POST.get('newPassword'))
+    confirm_password = str(request.POST.get('confirmPassword'))
+
+    if len(new_password.strip()) < 5:
+        return render(request, "profile.html", {
+            "errors": {
+                "newPassword": "Senha muito curta."
+            }
+        })
+
+    print('passwords', new_password, confirm_password)
+
+    if new_password != confirm_password:
+        return render(request, "profile.html", {
+            "errors": {
+                "confirmPassword": "Senhas não coincidem."
+            }
+        })
+
+    user = User.objects.get(username=request.user.username)
+
+    if not user.check_password(current_password):
+        return render(request, "profile.html", {
+            "errors": {
+                "currentPassword": "Senha incorreta."
+            }
+        })
+
+    print("new password", new_password)
+
+    user.set_password(new_password)
+
+    print("Hash pwd", user.password)
+
+    user.save()
+
+    # Manter o usuário autenticado após a mudança de senha
+    update_session_auth_hash(request, user)
 
     return redirect('/auth/profile')
 
@@ -111,6 +158,6 @@ def _create_new_user(form):
     password = form.cleaned_data['password']
 
     user = User.objects.create_user(
-        username=username, email=email, password=password
+        username=username.lower(), email=email, password=password
     )
     user.save()

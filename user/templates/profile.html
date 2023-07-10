@@ -47,30 +47,34 @@
 
             <h1 class="text-center  pb-3">Alterar Senha</h1>
     
-            <form action="" method="post">
+            <form action="{% url 'update_password' %}" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="currentPassword">Senha Atual:</label>
                     <input class="form-control" id="currentPassword" name="currentPassword" type="password"  >
+                    <span class="text-danger">
+                        {{ errors.currentPassword }}
+                    </span>
                 </div>
     
                 <div class="mb-3">
                     <label for="new_password">Nova Senha:</label>
-                    <input class="form-control" id="new_password" name="new_password" type="password"  >
-                    <span class="text-small text-danger">
-                        {{ errors.username }}
-                        {% if errors %}
-                        {% endif %}
+                    <input class="form-control" id="new_password" name="newPassword" type="password"  >
+                    <span class="text-danger">
+                        {{ errors.newPassword }}
                     </span>
                 </div>
     
                 <div class="mb-3">
                     <label for="confirm_password">Repetir Nova Senha:</label>
-                    <input class="form-control" id="confirm_password" type="password"  >
+                    <input name="confirmPassword" class="form-control" id="confirmPassword" type="password"  >
+                    <span class="text-danger">
+                        {{ errors.confirmPassword }}
+                    </span>
                 </div>
     
                 <div class="d-md-block mb-3">
-                    <button class="btn btn-danger" style="width: 100%;" >Salvar nova senha</button>
+                    <button type="submit" class="btn btn-danger" style="width: 100%;" >Salvar nova senha</button>
                 </div>
             </form>
         </div>
