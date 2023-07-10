@@ -53,7 +53,7 @@ def login_user(request):
             login(request, authenticated_user)
             request.session['user_id'] = authenticated_user.id
 
-            return redirect('/todo/home/')
+            return redirect('/auth/home/')
         else:
             return render(request, 'login.html', {'form': errors})
 
@@ -62,6 +62,43 @@ def logout_user(request):
     logout(request)
 
     return redirect('/auth/login')
+
+
+def update_profile(request):
+    if request.method == 'GET':
+        return render(request, 'profile.html')
+
+    username = request.POST.get('username')
+
+    if request.user.username == username:
+        return render(request, 'profile.html', {
+            'errors': {
+                'username': 'Já está em uso.'
+            }
+        })
+
+    if len(username.strip()) < 2:
+        return render(request, 'profile.html', {
+            'errors': {
+                'username': 'Muito curto!'
+            }
+        })
+
+    username_already_exists = _user_exists(username)
+
+    if username_already_exists:
+        return render(request, 'profile.html', {
+            'errors': {
+                'username': 'Já está em uso.'
+            }
+
+        })
+
+    current_user = User.objects.get(id=request.user.id)
+    current_user.username = username
+    current_user.save()
+
+    return redirect('/auth/profile')
 
 
 def _user_exists(username):

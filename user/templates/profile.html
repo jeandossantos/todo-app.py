@@ -1,0 +1,46 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block head %}
+<title>Perfil - Todo App</title>
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include 'menu.html' %}
+
+<div class="container my-5 d-flex justify-content-center align-itens-center">
+    <div class="profile bg-light py-3 px-5">
+        <h1 class="text-center pb-3">Perfil</h1>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="email">E-mail:</label>
+                <input class="form-control" name="email" type="email" disabled readonly value="{{request.user.email}}">
+            </div>
+
+            <div class="mb-3">
+                <label for="username">Usuário:</label>
+                <input class="form-control" id="username" name="username" type="text" value="{{request.user.username}}">
+                <span class="text-small text-danger">
+                    {{ errors.username }}
+                    {% if errors %}
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label for="password">Senha:</label>
+                <input class="form-control" id="password" type="password" disabled readonly value="********">
+            </div>
+
+            <div class="d-md-block mb-3">
+                <button class="btn btn-warning" style="width: 100%;" >Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
