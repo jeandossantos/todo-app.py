@@ -54,3 +54,26 @@ body {
   font-weight: 700;
   flex-shrink: 0;
 }
+
+#navbarNav .user-info {
+  font-weight: bold;
+  font-size: 16px;
+
+  margin-right: 170px;
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.user-info .text {
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 999px) {
+  #navbarNav .user-info {
+    margin-right: 50px;
+  }
+}
