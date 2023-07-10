@@ -5,12 +5,11 @@
 
 <div class="container edit-todo bg-light my-5 pt-3 pb-3">
   <h1 class="text-center">Alterando Tarefa</h1>
- 
     <form method="post" action="{% url 'edit_todo' id=todo.id  %}" class="px-5 mb-2    ">
       {% csrf_token %}
-      <input type="text" value="{{todo.id}}" hidden />
+  
       <div class="mb-3">
-        {% csrf_token %}
+
         <label for="title" class="form-label">Título:</label>
         <input
           type="text"
@@ -18,14 +17,15 @@
           id="title"
           name="title"
           required
+          min="2"
           placeholder="lavar o carro"
           value="{{todo.title}}"
         />
+ 
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Descrição:</label>
-        <textarea class="form-control" name="description" rows="3">
-  {{todo.description}}</textarea
+        <textarea class="form-control" name="description" rows="3">{{todo.description}}</textarea
         >
       </div>
       <div class="mb-3">

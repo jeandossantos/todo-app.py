@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
+from django.urls import reverse
 from .models import Todo
 
 from . import utils
@@ -39,6 +40,7 @@ def home(request):
 
 
 def edit_todo(request, id):
+
     if not request.user.is_authenticated:
         return render(request, "login.html")
 
@@ -46,7 +48,7 @@ def edit_todo(request, id):
         todo = Todo.objects.get(id=id)
 
         return render(request, 'edit_todo.html', {
-            'todo': todo
+            'todo': todo,
         })
 
     title = request.POST.get('title')
@@ -54,6 +56,9 @@ def edit_todo(request, id):
     priority = request.POST.get('priority')
     deadline = request.POST.get('deadline')
     done = request.POST.get('done')
+
+    if len(title.strip()) < 2:
+        return redirect(reverse('edit_todo', kwargs={'id': id}))
 
     if len(deadline) == 0:
         deadline = None
