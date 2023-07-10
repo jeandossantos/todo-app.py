@@ -1,20 +1,20 @@
 # Todo APP
 
 ## Descrição
-Um simples gerenciador de tarefas onde você pode criar, alterar listar e remove suas tarefas.
+O Todo App é um simples gerenciador de tarefas que permite criar, atualizar, listar e remover suas tarefas. É uma ferramenta útil para manter o controle das suas atividades diárias.
 
 ## Funcionalidades
 Nesse projeto foi desenvolvida várias funcionalidades como:
-- Criação de Usuários
-- Atualização dos dados do Usuário
-- Troca se Senha
-- Criação de Tarefas
-- Atualização de tafefas
-- Marcar Tarefas como feita ou como não feita
-- Remoção de Tarefas
-- Listagem de Tarefa
-- Logout de Usuário
-- Garantintir que só usuários autenticados acessem certas páginas
+- Criação de usuários
+- Atualização dos dados do usuário
+- Troca de senha do usuário
+- Criação de tarefas
+- Atualização das tarefas
+- Marcar tarefas como concluídas ou não concluídas
+- Remoção de tarefas
+- Listagem de tarefas
+- Logout do usuário
+- Restrição de acesso a páginas apenas para usuários autenticados
 
 
 ## Páginas da aplicação
