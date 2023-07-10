@@ -1,12 +1,16 @@
+html {
+  height: 100vh;
+}
+
 body {
   background-image: url('../images/background.jpg');
   background-position: center;
   background-size: cover;
   background-color: #ebebeb;
   background-repeat: no-repeat;
-  height: 100vh;
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .content {

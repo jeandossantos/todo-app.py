@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'css/edit_todo.css' %}" />
 {% endblock %} {% block content %} {% include 'menu.html' %}
 
-<div class="container edit-todo bg-light my-3 pt-3 pb-3">
+<div class="container edit-todo bg-light my-5 pt-3 pb-3">
   <h1 class="text-center">Alterando Tarefa</h1>
  
     <form method="post" action="{% url 'edit_todo' id=todo.id  %}" class="px-5 mb-2    ">
@@ -52,13 +52,15 @@
       </div>
       <div class="mb-3" style="width: 200px">
         <label class="form-label" for="deadline">Prazo:</label>
+        {% with formatted_deadline=todo.deadline|date:'Y-m-d\TH:i' %}
         <input
           type="datetime-local"
           name="deadline"
           id="deadline"
           class="form-control"
-          value="{{title.deadline}}"
+          value="{{ formatted_deadline }}"
         />
+        {% endwith %}
       </div>
   
       <div class="mb-3">

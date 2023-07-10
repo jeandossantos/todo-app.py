@@ -10,35 +10,70 @@
 {% include 'menu.html' %}
 
 <div class="container my-5 d-flex justify-content-center align-itens-center">
-    <div class="profile bg-light py-3 px-5">
-        <h1 class="text-center pb-3">Perfil</h1>
+    <div class="profile  ">
+        <div style="border-radius: 4px;" class="bg-light py-3 px-5">
 
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="email">E-mail:</label>
-                <input class="form-control" name="email" type="email" disabled readonly value="{{request.user.email}}">
-            </div>
+            <h1 class="text-center pb-3">Perfil</h1>
+    
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="email">E-mail:</label>
+                    <input class="form-control" name="email" type="email" disabled readonly value="{{request.user.email}}">
+                </div>
+    
+                <div class="mb-3">
+                    <label for="username">Usuário:</label>
+                    <input class="form-control" id="username" name="username" type="text" value="{{request.user.username}}">
+                    <span class="text-small text-danger">
+                        {{ errors.username }}
+                        {% if errors %}
+                        {% endif %}
+                    </span>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="password">Senha:</label>
+                    <input class="form-control" id="password" type="password" disabled readonly value="********">
+                </div>
+    
+                <div class="d-md-block mb-3">
+                    <button class="btn btn-warning" style="width: 100%;" >Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
 
-            <div class="mb-3">
-                <label for="username">Usuário:</label>
-                <input class="form-control" id="username" name="username" type="text" value="{{request.user.username}}">
-                <span class="text-small text-danger">
-                    {{ errors.username }}
-                    {% if errors %}
-                    {% endif %}
-                </span>
-            </div>
+        <div style="border-radius: 4px;" class="bg-light py-3 px-5">
 
-            <div class="mb-3">
-                <label for="password">Senha:</label>
-                <input class="form-control" id="password" type="password" disabled readonly value="********">
-            </div>
-
-            <div class="d-md-block mb-3">
-                <button class="btn btn-warning" style="width: 100%;" >Salvar Alterações</button>
-            </div>
-        </form>
+            <h1 class="text-center  pb-3">Alterar Senha</h1>
+    
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="currentPassword">Senha Atual:</label>
+                    <input class="form-control" id="currentPassword" name="currentPassword" type="password"  >
+                </div>
+    
+                <div class="mb-3">
+                    <label for="new_password">Nova Senha:</label>
+                    <input class="form-control" id="new_password" name="new_password" type="password"  >
+                    <span class="text-small text-danger">
+                        {{ errors.username }}
+                        {% if errors %}
+                        {% endif %}
+                    </span>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="confirm_password">Repetir Nova Senha:</label>
+                    <input class="form-control" id="confirm_password" type="password"  >
+                </div>
+    
+                <div class="d-md-block mb-3">
+                    <button class="btn btn-danger" style="width: 100%;" >Salvar nova senha</button>
+                </div>
+            </form>
+        </div>
     </div>
 
 </div>

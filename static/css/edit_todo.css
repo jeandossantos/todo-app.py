@@ -1,4 +1,5 @@
 .edit-todo {
   border-radius: 4px;
-  min-height: 80vh;
+
+  width: 700px;
 }
